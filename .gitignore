@@ -1,0 +1,17 @@
+# secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# private data + derived outputs (Owkin's dataset is private: never commit it)
+data/
+outputs/
+runs/
+
+# os
+.DS_Store

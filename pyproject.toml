@@ -1,0 +1,42 @@
+[project]
+name = "reasoning-traces"
+version = "0.1.0"
+description = "Local pipeline that turns biology Q&A pairs into filtered, SFT-ready reasoning traces."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "datasets>=3.0",
+    "huggingface-hub>=0.24",
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+]
+
+[project.scripts]
+traces = "reasoning_traces.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/reasoning_traces"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 140
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/reasoning_traces/prompts.py" = ["E501"]  # prompt prose: one paragraph per line, kept verbatim

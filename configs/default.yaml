@@ -1,0 +1,45 @@
+# Every value here is already the default in src/reasoning_traces/config.py.
+# Copy this file, change what you need, and run: uv run traces run --config configs/my.yaml
+
+data:
+  repo: owkin/technical_test
+  split: train
+  n_questions: 50
+  sampling: stratified   # "head" reproduces the stub's first-50 rows (all labelled "Yes")
+  seed: 42
+
+llm:
+  base_url: http://localhost:12434/engines/v1   # or set LLM_BASE_URL in .env
+  model: hf.co/qwen/qwen3-4b-gguf               # or set LLM_MODEL in .env
+  prompt_version: v1       # see SYSTEM_PROMPTS in prompts.py
+  reasoning_mode: native   # native = model's own <think>; prompted = thinking off, tags requested in the prompt
+  temperature: 0.6
+  top_p: 0.95
+  top_k: 20
+  max_tokens: 2048
+  concurrency: 2
+  timeout_s: 600
+  max_retries: 3
+
+sampling:
+  n_original: 2   # candidates for the dataset
+  n_swapped: 1    # probe: option order reversed
+  n_negated: 1    # probe: "sensitive" -> "resistant"
+
+filter:
+  allow_recovered_format: true
+  min_reasoning_words: 60
+  max_reasoning_words: 1400
+  max_compression_ratio: 5.0
+  max_shingle_repeats: 10
+  soft_shingle_repeats: 5
+  min_valid_probes: 3
+  min_probe_agreement: 1.0
+  max_per_question: 2
+  min_quality: 0.75
+  balance_labels: true
+  dedup_jaccard: 0.8
+  use_moa_reference: true
+  require_verifiable_mechanism: true
+
+out_dir: outputs/main
